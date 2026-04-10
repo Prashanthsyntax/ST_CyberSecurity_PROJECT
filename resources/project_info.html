@@ -1,224 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptX — System Overview</title>
-    <style>
-        :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --bg-accent: #0ea5e9;
-            --fg-primary: #f8fafc;
-            --fg-muted: #94a3b8;
-            --fg-blue: #38bdf8;
-            --fg-green: #4ade80;
-            --border: #334155;
-            --glow: rgba(56, 189, 248, 0.2);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--fg-primary);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 40px;
-            overflow-x: hidden;
-        }
+<title>CryptX — Project Overview</title>
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+<style>
 
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+:root{
+--bg1:#020617;
+--bg2:#0f172a;
+--bg3:#1e293b;
+--border:#334155;
+--text:#f8fafc;
+--muted:#94a3b8;
+--blue:#38bdf8;
+--green:#4ade80;
+--purple:#a78bfa;
+--glow:rgba(56,189,248,0.35);
+}
 
-        .header h1 {
-            font-family: 'Courier New', monospace;
-            color: var(--fg-blue);
-            font-size: 3.5em;
-            margin: 0;
-            letter-spacing: 8px;
-            text-shadow: 0 0 20px var(--glow);
-        }
+body{
+margin:0;
+font-family:Segoe UI,Roboto,Arial;
+background:linear-gradient(120deg,#020617,#0f172a,#020617);
+color:var(--text);
+padding:50px;
+}
 
-        .header p {
-            color: var(--fg-muted);
-            font-size: 1.1em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+/* container */
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
+.container{
+max-width:1100px;
+margin:auto;
+}
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+/* header */
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--fg-blue);
-            box-shadow: 0 10px 30px -10px var(--glow);
-        }
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:50px;
+}
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--fg-blue), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.5s;
-        }
+.logo-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
 
-        .card:hover::before {
-            transform: translateX(100%);
-        }
+.logo-left img{
+height:60px;
+filter:drop-shadow(0 0 10px var(--glow));
+}
 
-        .callsign {
-            font-family: 'Courier New', monospace;
-            font-size: 0.75em;
-            color: var(--fg-blue);
-            background: rgba(56, 189, 248, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            display: inline-block;
-        }
+.logo-text{
+font-family:Courier New;
+letter-spacing:3px;
+font-size:22px;
+color:var(--blue);
+}
 
-        .card h3 {
-            margin: 10px 0;
-            font-size: 1.25em;
-            color: #fff;
-        }
+.logo-right img{
+height:50px;
+opacity:0.9;
+}
 
-        .card p {
-            font-size: 0.9em;
-            color: var(--fg-muted);
-            line-height: 1.5;
-            margin-bottom: 0;
-        }
+/* title */
 
-        .footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            color: var(--fg-muted);
-            font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-        }
+.title{
+text-align:center;
+margin-bottom:40px;
+}
 
-        .status-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
+.title h1{
+font-size:42px;
+letter-spacing:6px;
+margin:0;
+color:var(--blue);
+text-shadow:0 0 15px var(--glow);
+}
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--fg-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--fg-green);
-        }
+.title p{
+color:var(--muted);
+margin-top:10px;
+letter-spacing:2px;
+}
 
-        @media (max-width: 600px) {
-            body { padding: 20px; }
-            .header h1 { font-size: 2.5em; }
-        }
-    </style>
+/* cards */
+
+.card{
+background:var(--bg3);
+border:1px solid var(--border);
+border-radius:12px;
+padding:30px;
+margin-bottom:30px;
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+border-color:var(--blue);
+box-shadow:0 0 30px var(--glow);
+}
+
+.card h2{
+margin-top:0;
+color:var(--blue);
+font-size:22px;
+border-bottom:1px solid var(--border);
+padding-bottom:10px;
+}
+
+/* module grid */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.module{
+background:#020617;
+padding:20px;
+border-radius:10px;
+border:1px solid var(--border);
+transition:.3s;
+}
+
+.module:hover{
+border-color:var(--purple);
+transform:translateY(-4px);
+}
+
+.module h3{
+margin:0 0 10px 0;
+color:var(--purple);
+font-size:18px;
+}
+
+.module p{
+color:var(--muted);
+font-size:14px;
+}
+
+/* tables */
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+font-size:15px;
+}
+
+th,td{
+border:1px solid var(--border);
+padding:12px 15px;
+}
+
+th{
+background:#0f172a;
+color:var(--blue);
+}
+
+td{
+background:#020617;
+}
+
+/* status */
+
+.status{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:20px;
+font-family:Courier New;
+color:var(--green);
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--green);
+box-shadow:0 0 10px var(--green);
+}
+
+/* footer */
+
+.footer{
+text-align:center;
+margin-top:60px;
+padding-top:30px;
+border-top:1px solid var(--border);
+color:var(--muted);
+}
+
+@media(max-width:700px){
+
+body{padding:20px}
+
+.title h1{font-size:30px}
+
+.header{
+flex-direction:column;
+gap:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>CRYPTX</h1>
-        <p>Advanced Vulnerability Toolkit — Overview</p>
-    </div>
 
-    <div class="grid">
-        <!-- Module 1 -->
-        <div class="card">
-            <span class="callsign">[CRK-01]</span>
-            <h3>Hash Cracker</h3>
-            <p>High-velocity multi-algorithm engine for cracking MD5, SHA, and NTLM hashes with auto-detection.</p>
-        </div>
+<!-- HEADER -->
 
-        <!-- Module 2 -->
-        <div class="card">
-            <span class="callsign">[ATK-02]</span>
-            <h3>Hybrid Attack</h3>
-            <p>Elite 4-stage pipeline combining Rainbow tables, Dictionaries, and AI-optimized Brute Force.</p>
-        </div>
+<div class="header">
 
-        <!-- Module 3 -->
-        <div class="card">
-            <span class="callsign">[GEN-03]</span>
-            <h3>Smart Generator</h3>
-            <p>AI-driven wordlist synthesis using Markov chains and target-specific deep metadata analysis.</p>
-        </div>
+<div class="logo-left">
+<img src="logo.png">
+<div class="logo-text">CRYPTX SECURITY</div>
+</div>
 
-        <!-- Module 4 -->
-        <div class="card">
-            <span class="callsign">[NRN-04]</span>
-            <h3>AI Training</h3>
-            <p>The neural core—train on billions of real-world leaks to predict and crack complex password structures.</p>
-        </div>
+<div class="logo-right">
+<img src="supraja.png">
+</div>
 
-        <!-- Module 5 -->
-        <div class="card">
-            <span class="callsign">[RUL-05]</span>
-            <h3>Rule Engine</h3>
-            <p>Tactical mutation engine applying hundreds of logic-based rules for maximum dictionary expansion.</p>
-        </div>
+</div>
 
-        <!-- Module 6 -->
-        <div class="card">
-            <span class="callsign">[VLT-06]</span>
-            <h3>Rainbow Manager</h3>
-            <p>Pre-computed hash vault for near-instant decryption without significant CPU or Memory overhead.</p>
-        </div>
+<!-- TITLE -->
 
-        <!-- Module 7 -->
-        <div class="card">
-            <span class="callsign">[DBR-07]</span>
-            <h3>Analytics Hub</h3>
-            <p>Real-time intelligence dashboard featuring entropy measurement and predictive strength scoring.</p>
-        </div>
+<div class="title">
+<h1>CRYPTX</h1>
+<p>AI Powered Password Vulnerability Analyzer</p>
+</div>
 
-        <!-- Module 8 -->
-        <div class="card">
-            <span class="callsign">[LOG-08]</span>
-            <h3>Audit Reports</h3>
-            <p>Professional compliance engine for generating legally-defensible assessment reports and logs.</p>
-        </div>
-    </div>
+<!-- PROJECT OVERVIEW -->
 
-    <div class="footer">
-        <div class="status-badge">
-            <div class="dot"></div>
-            SYSTEM OPERATIONAL // AUTHORIZED ACCESS ONLY
-        </div>
-        <p style="margin-top: 20px;">© 2026 CRYPTX SECURITY · PHASE II DEPLOYMENT</p>
-    </div>
+<div class="card">
+
+<h2>Project Overview</h2>
+
+<p style="color:var(--muted);line-height:1.7">
+
+CryptX is an advanced cybersecurity toolkit designed to analyze password vulnerabilities and help organizations evaluate the strength of authentication systems.  
+
+The system integrates multiple password cracking techniques such as dictionary attacks, brute force attacks, rule-based mutations, rainbow tables, and AI-assisted wordlist generation to simulate real-world attack scenarios.
+
+By combining intelligent analytics with automated attack strategies, CryptX helps security teams identify weak passwords, improve password policies, and strengthen organizational security against cyber threats.
+
+</p>
+
+</div>
+
+<!-- SYSTEM MODULES -->
+
+<div class="card">
+
+<h2>System Modules</h2>
+
+<div class="grid">
+
+<div class="module">
+<h3>Window 1 — GUI Launcher</h3>
+<p>Beginner friendly main interface with tool selection and mode switch (Beginner / Advanced).</p>
+</div>
+
+<div class="module">
+<h3>Window 2 — Hash Detection</h3>
+<p>Automatically detects hash algorithms including MD5, SHA1, SHA256, SHA512 and NTLM.</p>
+</div>
+
+<div class="module">
+<h3>Window 3 — Hybrid Attack Engine</h3>
+<p>Combines rainbow tables, dictionary attacks, rule mutations, and brute force techniques.</p>
+</div>
+
+<div class="module">
+<h3>Window 4 — AI Wordlist Generator</h3>
+<p>Generates personalized password wordlists using target metadata like names and birthdays.</p>
+</div>
+
+<div class="module">
+<h3>Window 5 — Rule Engine</h3>
+<p>Applies transformations such as append, prepend, reverse, uppercase, lowercase and duplication.</p>
+</div>
+
+<div class="module">
+<h3>Window 6 — Rainbow Table Manager</h3>
+<p>Manages rainbow tables and provides statistics on coverage and hash database size.</p>
+</div>
+
+<div class="module">
+<h3>Window 7 — Analytics Dashboard</h3>
+<p>Displays password strength metrics, crack statistics, and algorithm performance charts.</p>
+</div>
+
+<div class="module">
+<h3>Window 8 — Reporting System</h3>
+<p>Generates professional security audit reports with logs and compliance documentation.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- PROJECT DETAILS -->
+
+<div class="card">
+
+<h2>Project Details</h2>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Project Name</td>
+<td>CryptX: AI-Powered Password Vulnerability Analyzer</td>
+</tr>
+
+<tr>
+<td>Category</td>
+<td>Cyber Security / Password Analysis Tool</td>
+</tr>
+
+<tr>
+<td>Technologies</td>
+<td>Python, Tkinter GUI, Hash Algorithms, AI Wordlist Generation</td>
+</tr>
+
+<tr>
+<td>Start Date</td>
+<td>01 January 2026</td>
+</tr>
+
+<tr>
+<td>Completion Date</td>
+<td>01 May 2026</td>
+</tr>
+
+<tr>
+<td>Status</td>
+<td style="color:#4ade80"><b>Completed</b></td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- DEVELOPERS -->
+
+<div class="card">
+
+<h2>Developer Team</h2>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Employee ID</th>
+<th>Email</th>
+</tr>
+
+<tr>
+<td>C Parasuraman</td>
+<td>ST#IS#9059</td>
+<td>parasuramanm492@gmail.com</td>
+</tr>
+
+<tr>
+<td>S Sai Manikanta Rao</td>
+<td>ST#IS#9060</td>
+<td>sainenisaimanikantarao@gmail.com</td>
+</tr>
+
+<tr>
+<td>P Prashanth</td>
+<td>ST#IS#9061</td>
+<td>prashanthpendem2323@gmail.com</td>
+</tr>
+
+<tr>
+<td>Sai Nikhil</td>
+<td>ST#IS#9062</td>
+<td>sainikhilyadav8@gmail.com</td>
+</tr>
+
+<tr>
+<td>V Rishika</td>
+<td>ST#IS#9072</td>
+<td>rishikav0105@gmail.com</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- COMPANY -->
+
+<div class="card">
+
+<h2>Company Information</h2>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Organization</td>
+<td>Supraja Technologies</td>
+</tr>
+
+<tr>
+<td>Internship Domain</td>
+<td>Cyber Security</td>
+</tr>
+
+<tr>
+<td>Email</td>
+<td>contact@suprajatechnologies.com</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- STATUS -->
+
+<div class="status">
+<div class="dot"></div>
+SYSTEM OPERATIONAL — PROJECT COMPLETED
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+© 2026 CRYPTX SECURITY · SUPRAJA TECHNOLOGIES
+</div>
+
 </div>
 
 </body>
