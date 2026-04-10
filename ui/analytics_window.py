@@ -88,16 +88,10 @@ def score_password(pwd: str) -> tuple[str, int]:
     return label, score
 
 
-class AnalyticsDashboard:
-    def __init__(self, parent,
-                 results: list = None):
-        self.win = tk.Toplevel(parent)
-        self.win.title(
-            "Window 7 — Analytics Dashboard")
-        self.win.geometry("1100x860")
-        self.win.minsize(900, 720)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class AnalyticsFrame(tk.Frame):
+    def __init__(self, parent, nav=None, results: list = None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         # Accept results passed directly
         # or loaded from file
@@ -114,12 +108,12 @@ class AnalyticsDashboard:
 
         # Auto-analyse if results passed in
         if self.results:
-            self.win.after(
+            self.after(
                 200, self._run_analysis)
 
     # ── Title bar ────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD,
+        bar = tk.Frame(self, bg=BG_CARD,
                        height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
@@ -140,7 +134,7 @@ class AnalyticsDashboard:
 
     # ── Input row ─────────────────────────────────────
     def _build_input_row(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16,
                    pady=(10, 0))
 
@@ -200,7 +194,7 @@ class AnalyticsDashboard:
 
     # ── Summary stat cards ────────────────────────────
     def _build_summary_cards(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16,
                    pady=(10, 0))
 
@@ -243,7 +237,7 @@ class AnalyticsDashboard:
 
     # ── Charts area ───────────────────────────────────
     def _build_charts_area(self):
-        outer = tk.Frame(self.win, bg=BG_DARK)
+        outer = tk.Frame(self, bg=BG_DARK)
         outer.pack(fill="x", padx=16,
                    pady=(10, 0))
         outer.columnconfigure(0, weight=1)
@@ -312,7 +306,7 @@ class AnalyticsDashboard:
 
     # ── Top passwords + password tester ───────────────
     def _build_top_passwords(self):
-        outer = tk.Frame(self.win, bg=BG_DARK)
+        outer = tk.Frame(self, bg=BG_DARK)
         outer.pack(fill="x", padx=16,
                    pady=(10, 0))
         outer.columnconfigure(0, weight=1)
@@ -465,7 +459,7 @@ class AnalyticsDashboard:
 
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16,
                    pady=(10, 6))
 
@@ -529,7 +523,7 @@ class AnalyticsDashboard:
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD,
+        bar = tk.Frame(self, bg=BG_CARD,
                        height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
@@ -736,7 +730,7 @@ class AnalyticsDashboard:
         max_v  = max(data.values()) \
                  if data.values() else 1
 
-        self.win.after(100, lambda:
+        self.after(100, lambda:
             self._draw_bar_chart(
                 self.strength_canvas,
                 data, colors, max_v))
@@ -761,7 +755,7 @@ class AnalyticsDashboard:
         max_v = max(top4.values()) \
                 if top4 else 1
 
-        self.win.after(100, lambda:
+        self.after(100, lambda:
             self._draw_bar_chart(
                 self.algo_canvas,
                 top4, colors, max_v))
@@ -791,7 +785,7 @@ class AnalyticsDashboard:
         max_v = max(buckets.values()) \
                 if buckets.values() else 1
 
-        self.win.after(100, lambda:
+        self.after(100, lambda:
             self._draw_bar_chart(
                 self.length_canvas,
                 buckets, colors, max_v))
@@ -905,7 +899,7 @@ class AnalyticsDashboard:
 
     def _toggle_show(self):
         entry_widgets = []
-        for w in self.win.winfo_children():
+        for w in self.winfo_children():
             self._find_entries(w,
                                entry_widgets)
         show = "" if self.show_pwd.get() \

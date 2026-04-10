@@ -1,7 +1,7 @@
-import tkinter as tk
-from ui.launcher import LauncherWindow
+from ui.nav_manager import NavigationManager
+from ui.launcher import LauncherFrame
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = LauncherWindow(root)
-    root.mainloop()
+    app = NavigationManager()
+    app.show_view(LauncherFrame)
+    app.mainloop()

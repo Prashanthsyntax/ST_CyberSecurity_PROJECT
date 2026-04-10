@@ -1,4 +1,4 @@
-# Advanced Password Cracker Tool
+# CryptX: AI-Powered Password Vulnerability Analyzer
 
 ![alt text](image.png)
 

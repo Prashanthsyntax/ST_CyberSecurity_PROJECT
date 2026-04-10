@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptX — System Overview</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-accent: #0ea5e9;
+            --fg-primary: #f8fafc;
+            --fg-muted: #94a3b8;
+            --fg-blue: #38bdf8;
+            --fg-green: #4ade80;
+            --border: #334155;
+            --glow: rgba(56, 189, 248, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--fg-primary);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Courier New', monospace;
+            color: var(--fg-blue);
+            font-size: 3.5em;
+            margin: 0;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px var(--glow);
+        }
+
+        .header p {
+            color: var(--fg-muted);
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--fg-blue);
+            box-shadow: 0 10px 30px -10px var(--glow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--fg-blue), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .callsign {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            color: var(--fg-blue);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 1.25em;
+            color: #fff;
+        }
+
+        .card p {
+            font-size: 0.9em;
+            color: var(--fg-muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--fg-muted);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--fg-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--fg-green);
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 20px; }
+            .header h1 { font-size: 2.5em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>CRYPTX</h1>
+        <p>Advanced Vulnerability Toolkit — Overview</p>
+    </div>
+
+    <div class="grid">
+        <!-- Module 1 -->
+        <div class="card">
+            <span class="callsign">[CRK-01]</span>
+            <h3>Hash Cracker</h3>
+            <p>High-velocity multi-algorithm engine for cracking MD5, SHA, and NTLM hashes with auto-detection.</p>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="card">
+            <span class="callsign">[ATK-02]</span>
+            <h3>Hybrid Attack</h3>
+            <p>Elite 4-stage pipeline combining Rainbow tables, Dictionaries, and AI-optimized Brute Force.</p>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="card">
+            <span class="callsign">[GEN-03]</span>
+            <h3>Smart Generator</h3>
+            <p>AI-driven wordlist synthesis using Markov chains and target-specific deep metadata analysis.</p>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="card">
+            <span class="callsign">[NRN-04]</span>
+            <h3>AI Training</h3>
+            <p>The neural core—train on billions of real-world leaks to predict and crack complex password structures.</p>
+        </div>
+
+        <!-- Module 5 -->
+        <div class="card">
+            <span class="callsign">[RUL-05]</span>
+            <h3>Rule Engine</h3>
+            <p>Tactical mutation engine applying hundreds of logic-based rules for maximum dictionary expansion.</p>
+        </div>
+
+        <!-- Module 6 -->
+        <div class="card">
+            <span class="callsign">[VLT-06]</span>
+            <h3>Rainbow Manager</h3>
+            <p>Pre-computed hash vault for near-instant decryption without significant CPU or Memory overhead.</p>
+        </div>
+
+        <!-- Module 7 -->
+        <div class="card">
+            <span class="callsign">[DBR-07]</span>
+            <h3>Analytics Hub</h3>
+            <p>Real-time intelligence dashboard featuring entropy measurement and predictive strength scoring.</p>
+        </div>
+
+        <!-- Module 8 -->
+        <div class="card">
+            <span class="callsign">[LOG-08]</span>
+            <h3>Audit Reports</h3>
+            <p>Professional compliance engine for generating legally-defensible assessment reports and logs.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="status-badge">
+            <div class="dot"></div>
+            SYSTEM OPERATIONAL // AUTHORIZED ACCESS ONLY
+        </div>
+        <p style="margin-top: 20px;">© 2026 CRYPTX SECURITY · PHASE II DEPLOYMENT</p>
+    </div>
+</div>
+
+</body>
+</html>

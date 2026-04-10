@@ -16,13 +16,10 @@ BORDER   = "#3a3a50"
 BTN_BLUE = "#185FA5"
 
 
-class AITrainingWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title("AI Engine — Training")
-        self.win.geometry("700x500")
-        self.win.minsize(600, 420)
-        self.win.configure(bg=BG_DARK)
+class AITrainingFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         self.wordlist_var = tk.StringVar()
         self.running      = False
@@ -35,7 +32,7 @@ class AITrainingWindow:
         self._load_existing_stats()
 
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57","#febc2e","#28c840"]:
@@ -51,7 +48,7 @@ class AITrainingWindow:
                  side="left", padx=12)
 
     def _build_body(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(14, 0))
 
         tk.Label(frame,
@@ -135,7 +132,7 @@ class AITrainingWindow:
             self.wordlist_var.set(path)
 
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10,6))
 
         self.train_btn = tk.Button(
@@ -161,7 +158,7 @@ class AITrainingWindow:
                          ipadx=14)
 
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=28)
+        bar = tk.Frame(self, bg=BG_CARD, height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
         tk.Label(bar, text="●",
@@ -175,7 +172,7 @@ class AITrainingWindow:
                  font=("Courier",9)).pack(side="left")
 
     def _build_log(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
                    padx=16, pady=(6,4))
         tk.Label(frame, text="TRAINING LOG",
@@ -255,7 +252,7 @@ class AITrainingWindow:
         trainer = AITrainer()
 
         def cb(pct, count):
-            self.win.after(0,
+            self.after(0,
                 lambda p=pct, c=count: (
                     self.progress.__setitem__(
                         "value", p),
@@ -270,7 +267,7 @@ class AITrainingWindow:
         count = trainer.train_from_file(path, cb)
         stats = trainer.get_stats()
 
-        self.win.after(0, lambda: (
+        self.after(0, lambda: (
             self.stat_vars["Trained on"].set(
                 f"{stats['total_trained']:,}"),
             self.stat_vars["Markov states"].set(

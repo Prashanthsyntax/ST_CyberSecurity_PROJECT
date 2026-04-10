@@ -36,15 +36,10 @@ ALGORITHMS = {
 }
 
 
-class RainbowTableWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title(
-            "Window 6 — Rainbow Table Manager")
-        self.win.geometry("1100x820")
-        self.win.minsize(900, 700)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class RainbowTableFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         # Combined table: hash → plaintext
         self.combined_table = {}
@@ -72,7 +67,7 @@ class RainbowTableWindow:
 
     # ── Title bar ────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD,
+        bar = tk.Frame(self, bg=BG_CARD,
                        height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
@@ -90,7 +85,7 @@ class RainbowTableWindow:
 
     # ── Top 2-column section ──────────────────────────
     def _build_tables_section(self):
-        outer = tk.Frame(self.win, bg=BG_DARK)
+        outer = tk.Frame(self, bg=BG_DARK)
         outer.pack(fill="x", padx=16, pady=(12, 0))
         outer.columnconfigure(0, weight=1)
         outer.columnconfigure(1, weight=1)
@@ -320,7 +315,7 @@ class RainbowTableWindow:
 
     # ── Lookup bar ────────────────────────────────────
     def _build_lookup_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame,
@@ -363,7 +358,7 @@ class RainbowTableWindow:
         self.lookup_result.pack(side="left")
 
         # Bind Enter key
-        self.win.bind(
+        self.bind(
             "<Return>",
             lambda e: self._lookup_hash())
 
@@ -408,7 +403,7 @@ class RainbowTableWindow:
 
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         self.stat_vars = {
@@ -443,7 +438,7 @@ class RainbowTableWindow:
 
     # ── Progress bar ──────────────────────────────────
     def _build_progress(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(8, 0))
 
         style = ttk.Style()
@@ -467,7 +462,7 @@ class RainbowTableWindow:
 
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 6))
 
         self.build_btn = tk.Button(
@@ -530,7 +525,7 @@ class RainbowTableWindow:
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD,
+        bar = tk.Frame(self, bg=BG_CARD,
                        height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
@@ -560,7 +555,7 @@ class RainbowTableWindow:
 
     # ── Log box ───────────────────────────────────────
     def _build_log(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
                    padx=16, pady=(4, 4))
 
@@ -758,7 +753,7 @@ class RainbowTableWindow:
         algo_fn = ALGORITHMS[algo]
         max_e   = self.max_entries.get()
 
-        self.win.after(0, self._log,
+        self.after(0, self._log,
             f"[BUILD] Starting {algo} table "
             f"from {os.path.basename(wordlist_path)}"
             f"  ·  max: "
@@ -775,7 +770,7 @@ class RainbowTableWindow:
             messagebox.showerror(
                 "File Error", str(e))
             self.running = False
-            self.win.after(
+            self.after(
                 0, lambda: self.build_btn.configure(
                     state="normal",
                     text="▶  Build Rainbow Table"))
@@ -788,7 +783,7 @@ class RainbowTableWindow:
         table   = {}
         skipped = 0
 
-        self.win.after(0, self._log,
+        self.after(0, self._log,
             f"[BUILD] Processing {total:,} words...",
             "build")
 
@@ -806,7 +801,7 @@ class RainbowTableWindow:
                 pct     = int(((i + 1) / total) * 100) \
                           if total else 100
                 elapsed = round(time.time() - start, 1)
-                self.win.after(
+                self.after(
                     0, self._update_build_progress,
                     pct, len(table),
                     total, elapsed, algo)
@@ -832,7 +827,7 @@ class RainbowTableWindow:
             size_str = (
                 f"{size_bytes // (1024 * 1024)} MB")
 
-        self.win.after(0, self._log,
+        self.after(0, self._log,
             f"[BUILD] Complete!  {len(table):,} "
             f"entries  ·  {size_str}  ·  "
             f"{elapsed}s  ·  saved: {out_path}",
@@ -851,32 +846,32 @@ class RainbowTableWindow:
         self.loaded_tables.append(info)
 
         # ── FIX: use lambda for all keyword-arg calls ──
-        self.win.after(
+        self.after(
             0, lambda: self.table_tree.insert(
                 "", "end",
                 values=(
                     output_name, algo,
                     f"{len(table):,}", size_str)))
 
-        self.win.after(0, self._update_stats)
+        self.after(0, self._update_stats)
 
-        self.win.after(
+        self.after(
             0, lambda: self.progress.__setitem__(
                 "value", 100))
 
-        self.win.after(
+        self.after(
             0, lambda: self.progress_label.configure(
                 text=(f"100%  ·  Done  ·  "
                       f"{len(table):,} entries  ·  "
                       f"{elapsed}s")))
 
-        self.win.after(
+        self.after(
             0, lambda: self._set_status(
                 f"Built: {output_name}  ·  "
                 f"{len(table):,} entries  ·  "
                 f"{size_str}"))
 
-        self.win.after(
+        self.after(
             0, lambda: self.build_btn.configure(
                 state="normal",
                 text="▶  Build Rainbow Table"))

@@ -35,15 +35,10 @@ SESSION_TYPE_COLORS = {
 }
 
 
-class ReportsWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title(
-            "Window 8 — Reports & Logs")
-        self.win.geometry("1100x860")
-        self.win.minsize(900, 720)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class ReportsFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         self.sessions      = []
         self.preview_box   = None          # ← initialised early so guards work
@@ -64,7 +59,7 @@ class ReportsWindow:
 
     # ── Title bar ────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57", "#febc2e", "#28c840"]:
@@ -79,7 +74,7 @@ class ReportsWindow:
 
     # ── Summary cards ─────────────────────────────────
     def _build_summary_cards(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(12, 0))
 
         self.summary_vars = {
@@ -112,7 +107,7 @@ class ReportsWindow:
 
     # ── Main 2-column area ────────────────────────────
     def _build_main_area(self):
-        outer = tk.Frame(self.win, bg=BG_DARK)
+        outer = tk.Frame(self, bg=BG_DARK)
         outer.pack(fill="x", padx=16, pady=(10, 0))
         outer.columnconfigure(0, weight=3)
         outer.columnconfigure(1, weight=2)
@@ -310,7 +305,7 @@ class ReportsWindow:
 
     # ── Report preview ────────────────────────────────
     def _build_preview(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame, text="REPORT PREVIEW",
@@ -405,7 +400,7 @@ class ReportsWindow:
 
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 6))
 
         self.gen_btn = tk.Button(
@@ -451,7 +446,7 @@ class ReportsWindow:
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=28)
+        bar = tk.Frame(self, bg=BG_CARD, height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
 
@@ -610,7 +605,7 @@ class ReportsWindow:
             f"  Engagement: {target or 'N/A'}",
             f"  Scope:      {scope or 'N/A'}",
             f"  Date:       {now}",
-            "  Tool:       Advanced Password Cracker v2.0",
+            "  Tool:       CryptX v2.0",
             "=" * 60,
             "",
             "EXECUTIVE SUMMARY",
@@ -650,7 +645,7 @@ class ReportsWindow:
         lines += [
             "", "=" * 60,
             f"  Report generated: {now}",
-            "  Tool: Advanced Password Cracker v2.0",
+            "  Tool: CryptX v2.0",
             "=" * 60,
         ]
 
@@ -683,7 +678,7 @@ class ReportsWindow:
                 "engagement": target,
                 "scope":      scope,
                 "generated":  now,
-                "tool":       "Advanced Password Cracker v2.0",
+                "tool":       "CryptX v2.0",
             },
             "summary": {
                 "total_sessions": len(self.sessions),
@@ -740,7 +735,7 @@ class ReportsWindow:
 <p><strong>Engagement:</strong> {target or 'N/A'}</p>
 <p><strong>Scope:</strong> {scope or 'N/A'}</p>
 <p><strong>Date:</strong> {now}</p>
-<p><strong>Tool:</strong> Advanced Password Cracker v2.0</p>
+<p><strong>Tool:</strong> CryptX v2.0</p>
 
 <h2>Executive Summary</h2>
 <div>
@@ -774,7 +769,7 @@ class ReportsWindow:
 
 <p style="color:#64748b;margin-top:40px;font-size:11px;">
 Report generated: {now}<br>
-Tool: Advanced Password Cracker v2.0<br>
+Tool: CryptX v2.0<br>
 For authorized use only.
 </p>
 </body>

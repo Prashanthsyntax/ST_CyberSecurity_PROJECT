@@ -57,14 +57,10 @@ RULE_TOKENS = [
 ]
 
 
-class RuleEngineWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title("Window 5 — Rule Engine")
-        self.win.geometry("1100x820")
-        self.win.minsize(900, 700)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class RuleEngineFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         self.wordlist_file = tk.StringVar()
         self.running       = False
@@ -84,7 +80,7 @@ class RuleEngineWindow:
 
     # ── Title bar ────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57","#febc2e","#28c840"]:
@@ -101,7 +97,7 @@ class RuleEngineWindow:
 
     # ── File + ruleset selector ───────────────────────
     def _build_files_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(12,0))
 
         row = tk.Frame(frame, bg=BG_DARK)
@@ -171,7 +167,7 @@ class RuleEngineWindow:
 
     # ── Main 2-column area ────────────────────────────
     def _build_main_area(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10,0))
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
@@ -405,7 +401,7 @@ class RuleEngineWindow:
 
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10,0))
 
         self.stat_vars = {
@@ -439,7 +435,7 @@ class RuleEngineWindow:
 
     # ── Progress bar ──────────────────────────────────
     def _build_progress(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(8,0))
 
         style = ttk.Style()
@@ -462,7 +458,7 @@ class RuleEngineWindow:
 
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10,6))
 
         self.apply_btn = tk.Button(
@@ -523,7 +519,7 @@ class RuleEngineWindow:
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD,
+        bar = tk.Frame(self, bg=BG_CARD,
                        height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
@@ -552,7 +548,7 @@ class RuleEngineWindow:
 
     # ── Output box — fills remaining space ────────────
     def _build_output(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
                    padx=16, pady=(4,4))
 
@@ -646,19 +642,19 @@ class RuleEngineWindow:
             return
 
         words_in = len(wordlist)
-        self.win.after(0, lambda:
+        self.after(0, lambda:
             self.stat_vars["Words in"].set(
                 f"{words_in:,}"))
-        self.win.after(0, lambda:
+        self.after(0, lambda:
             self.stat_vars["Rules"].set(
                 str(len(rules))))
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        f"Applying {len(rules)} rules "
                        f"to {words_in:,} words...")
 
         def cb(pct, count):
             elapsed = round(time.time() - start, 2)
-            self.win.after(0,
+            self.after(0,
                 self._update_progress,
                 pct, count, words_in, elapsed)
 
@@ -669,14 +665,14 @@ class RuleEngineWindow:
         elapsed = round(time.time() - start, 2)
 
         # Populate output box
-        self.win.after(0,
+        self.after(0,
             self._populate_output, results)
 
         # Update stats
         mult = (round(len(results) / words_in, 1)
                 if words_in else 0)
 
-        self.win.after(0, lambda: (
+        self.after(0, lambda: (
             self.stat_vars["Words out"].set(
                 f"{len(results):,}"),
             self.stat_vars["Multiplier"].set(

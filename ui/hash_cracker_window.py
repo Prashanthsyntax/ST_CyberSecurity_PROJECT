@@ -32,14 +32,10 @@ ALGORITHMS = {
 rainbow = RainbowPasswordCracker()
 
 
-class HashCrackerWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title("Hash Cracker — Window 2")
-        self.win.geometry("900x750")
-        self.win.minsize(800, 650)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class HashCrackerFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         self.hash_file     = tk.StringVar()
         self.wordlist_file = tk.StringVar()
@@ -61,7 +57,7 @@ class HashCrackerWindow:
 
     # ── Title bar ────────────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57", "#febc2e", "#28c840"]:
@@ -76,7 +72,7 @@ class HashCrackerWindow:
 
     # ── File selectors ───────────────────────────────────────
     def _build_files_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(12, 0))
 
         for label, var in [
@@ -126,7 +122,7 @@ class HashCrackerWindow:
 
     # ── Algorithm toggles ────────────────────────────────────
     def _build_algo_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame, text="ALGORITHMS — select which to try",
@@ -149,7 +145,7 @@ class HashCrackerWindow:
 
     # ── Hash preview table ───────────────────────────────────
     def _build_hash_preview(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame,
@@ -204,7 +200,7 @@ class HashCrackerWindow:
 
     # ── Stats bar ────────────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         self.stat_vars = {
@@ -236,7 +232,7 @@ class HashCrackerWindow:
 
     # ── Progress bar ─────────────────────────────────────────
     def _build_progress(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         style = ttk.Style()
@@ -259,7 +255,7 @@ class HashCrackerWindow:
 
     # ── Buttons — packed BEFORE results so always visible ────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 6))
 
         self.start_btn = tk.Button(
@@ -304,7 +300,7 @@ class HashCrackerWindow:
 
     # ── Status bar — packed BEFORE results ───────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=28)
+        bar = tk.Frame(self, bg=BG_CARD, height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
         self.status_var = tk.StringVar(
@@ -319,7 +315,7 @@ class HashCrackerWindow:
 
     # ── Results table — packed LAST so it fills remaining space
     def _build_results_table(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True, padx=16, pady=(4, 4))
 
         tk.Label(frame, text="RESULTS",
@@ -395,7 +391,7 @@ class HashCrackerWindow:
 
         total = len(hashes)
         cracked = not_found = rainbow_hits = 0
-        self.win.after(0, lambda: self.stat_vars["Total"].set(str(total)))
+        self.after(0, lambda: self.stat_vars["Total"].set(str(total)))
 
         for idx, hash_val in enumerate(hashes):
             detected_algo = identify_hash(hash_val)
@@ -451,11 +447,11 @@ class HashCrackerWindow:
             }
             self.results.append(row)
 
-            self.win.after(0, self._update_ui,
+            self.after(0, self._update_ui,
                            row, cracked, not_found,
                            rainbow_hits, elapsed, pct, total)
 
-        self.win.after(0, self._done)
+        self.after(0, self._done)
 
     def _update_ui(self, row, cracked, not_found,
                    rainbow_hits, elapsed, pct, total):

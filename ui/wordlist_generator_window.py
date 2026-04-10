@@ -17,14 +17,10 @@ BORDER    = "#3a3a50"
 BTN_BLUE  = "#185FA5"
 
 
-class WordlistGeneratorWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title("Window 4 — AI Smart Wordlist Generator")
-        self.win.geometry("1000x820")
-        self.win.minsize(880, 700)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class WordlistGeneratorFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         # ── Target info fields ────────────────────────
         self.name_var     = tk.StringVar()
@@ -73,7 +69,7 @@ class WordlistGeneratorWindow:
 
     # ── Title bar ────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57", "#febc2e", "#28c840"]:
@@ -89,7 +85,7 @@ class WordlistGeneratorWindow:
 
     # ── Target info — 2 column grid ──────────────────
     def _build_target_section(self):
-        outer = tk.Frame(self.win, bg=BG_DARK)
+        outer = tk.Frame(self, bg=BG_DARK)
         outer.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(outer,
@@ -193,7 +189,7 @@ class WordlistGeneratorWindow:
 
     # ── Generation options ────────────────────────────
     def _build_options_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame, text="GENERATION OPTIONS",
@@ -242,7 +238,7 @@ class WordlistGeneratorWindow:
 
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         self.stat_vars = {
@@ -280,7 +276,7 @@ class WordlistGeneratorWindow:
 
     # ── Progress bar ──────────────────────────────────
     def _build_progress(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(8, 0))
 
         style = ttk.Style()
@@ -304,7 +300,7 @@ class WordlistGeneratorWindow:
 
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 6))
 
         self.gen_btn = tk.Button(
@@ -367,7 +363,7 @@ class WordlistGeneratorWindow:
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=28)
+        bar = tk.Frame(self, bg=BG_CARD, height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
 
@@ -394,7 +390,7 @@ class WordlistGeneratorWindow:
 
     # ── Preview — fills remaining space ──────────────
     def _build_preview(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
                    padx=16, pady=(6, 4))
 
@@ -466,7 +462,7 @@ class WordlistGeneratorWindow:
                 words.append(w)
 
         def log(msg, tag="ai"):
-            self.win.after(0,
+            self.after(0,
                 self._append_preview,
                 msg + "\n", tag)
 
@@ -496,9 +492,9 @@ class WordlistGeneratorWindow:
         }
 
         # ── STEP 1: Context Analyser (AI) ─────────────
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "AI: Analysing target context...")
-        self.win.after(0,
+        self.after(0,
             self.progress_label.configure,
             {"text": "Step 1/4 — Context analysis"})
 
@@ -521,15 +517,15 @@ class WordlistGeneratorWindow:
         for w in context_words:
             add(w)
 
-        self.win.after(0, self._update_progress,
+        self.after(0, self._update_progress,
                        25, len(words))
         log(f"[AI] Context analysis done · "
             f"{len(context_words)} words generated")
 
         # ── STEP 2: Load trained AI models ────────────
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "AI: Loading trained models...")
-        self.win.after(0,
+        self.after(0,
             self.progress_label.configure,
             {"text": "Step 2/4 — Loading AI models"})
 
@@ -547,10 +543,10 @@ class WordlistGeneratorWindow:
                 f"{stats['self_learned']}")
 
             # ── STEP 3: Markov generation ──────────────
-            self.win.after(0, self._set_status,
+            self.after(0, self._set_status,
                            "AI: Markov chain "
                            "generating...")
-            self.win.after(0,
+            self.after(0,
                 self.progress_label.configure,
                 {"text":
                  "Step 3/4 — Markov generation"})
@@ -560,16 +556,16 @@ class WordlistGeneratorWindow:
             for w in markov_words:
                 add(w)
 
-            self.win.after(0,
+            self.after(0,
                 self._update_progress, 60, len(words))
             log(f"[AI] Markov chain generated "
                 f"{len(markov_words)} new candidates")
 
             # ── STEP 4: N-gram + scoring ───────────────
-            self.win.after(0, self._set_status,
+            self.after(0, self._set_status,
                            "AI: N-gram analysis "
                            "+ scoring...")
-            self.win.after(0,
+            self.after(0,
                 self.progress_label.configure,
                 {"text":
                  "Step 4/4 — Scoring & ranking"})
@@ -600,9 +596,9 @@ class WordlistGeneratorWindow:
                 "generation.", "warn")
 
         # ── STEP 5: Rule-based mutations ──────────────
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "Applying mutation rules...")
-        self.win.after(0,
+        self.after(0,
             self.progress_label.configure,
             {"text": "Step 5 — Mutation rules"})
 
@@ -664,11 +660,11 @@ class WordlistGeneratorWindow:
                 f"\n... and "
                 f"{len(self.word_list) - 200:,} more")
 
-        self.win.after(0,
+        self.after(0,
             self._append_preview,
             preview_text + "\n", "word")
 
-        self.win.after(0,
+        self.after(0,
             self._generation_done, size_str,
             len(active_rules), len(base_words))
 
@@ -742,8 +738,8 @@ class WordlistGeneratorWindow:
                 "No Data",
                 "Generate a wordlist first.")
             return
-        self.win.clipboard_clear()
-        self.win.clipboard_append(
+        self.clipboard_clear()
+        self.clipboard_append(
             "\n".join(self.word_list))
         self._set_status(
             f"Copied {len(self.word_list):,} "

@@ -49,14 +49,10 @@ STAGES = [
 ]
 
 
-class HybridAttackWindow:
-    def __init__(self, parent):
-        self.win = tk.Toplevel(parent)
-        self.win.title("Window 3 — Hybrid Attack Engine")
-        self.win.geometry("1100x820")
-        self.win.minsize(900, 750)
-        self.win.configure(bg=BG_DARK)
-        self.win.resizable(True, True)
+class HybridAttackFrame(tk.Frame):
+    def __init__(self, parent, nav=None):
+        super().__init__(parent, bg=BG_DARK)
+        self.nav = nav
 
         self.hash_file     = tk.StringVar()
         self.wordlist_file = tk.StringVar()
@@ -95,7 +91,7 @@ class HybridAttackWindow:
 
     # ── Title bar ────────────────────────────────────────────
     def _build_titlebar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=36)
+        bar = tk.Frame(self, bg=BG_CARD, height=36)
         bar.pack(fill="x")
         bar.pack_propagate(False)
         for color in ["#ff5f57", "#febc2e", "#28c840"]:
@@ -111,7 +107,7 @@ class HybridAttackWindow:
 
     # ── File selectors ───────────────────────────────────────
     def _build_files_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         for label, var in [
@@ -156,7 +152,7 @@ class HybridAttackWindow:
 
     # ── Stage indicators — single row 1×4 ────────────────────
     def _build_stage_indicators(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame,
@@ -204,7 +200,7 @@ class HybridAttackWindow:
 
     # ── Mutation rules ───────────────────────────────────────
     def _build_mutation_section(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame, text="MUTATION RULES",
@@ -261,7 +257,7 @@ class HybridAttackWindow:
 
     # ── Brute force config ───────────────────────────────────
     def _build_brute_config(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         tk.Label(frame, text="BRUTE FORCE CONFIG",
@@ -321,7 +317,7 @@ class HybridAttackWindow:
 
     # ── Stats bar ────────────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 0))
 
         self.stat_vars = {
@@ -355,7 +351,7 @@ class HybridAttackWindow:
 
     # ── Progress bar ─────────────────────────────────────────
     def _build_progress(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(8, 0))
 
         style = ttk.Style()
@@ -381,7 +377,7 @@ class HybridAttackWindow:
 
     # ── Buttons — packed BEFORE log ──────────────────────────
     def _build_buttons(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16, pady=(10, 6))
 
         # Start
@@ -450,7 +446,7 @@ class HybridAttackWindow:
 
     # ── Status bar — side=bottom before log ──────────────────
     def _build_statusbar(self):
-        bar = tk.Frame(self.win, bg=BG_CARD, height=28)
+        bar = tk.Frame(self, bg=BG_CARD, height=28)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
 
@@ -477,7 +473,7 @@ class HybridAttackWindow:
 
     # ── Live log — packed LAST fills remaining space ──────────
     def _build_log(self):
-        frame = tk.Frame(self.win, bg=BG_DARK)
+        frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
                    padx=16, pady=(6, 4))
 
@@ -575,9 +571,9 @@ class HybridAttackWindow:
         remaining     = set(all_hashes)
         cracked_count = 0
 
-        self.win.after(0, lambda: self.stat_vars[
+        self.after(0, lambda: self.stat_vars[
             "Total"].set(str(total)))
-        self.win.after(0, lambda: self.stat_vars[
+        self.after(0, lambda: self.stat_vars[
             "Remaining"].set(str(total)))
 
         def elapsed():
@@ -599,7 +595,7 @@ class HybridAttackWindow:
                 "status": "Cracked",
                 "tag":    tag,
             })
-            self.win.after(0, self._update_stats,
+            self.after(0, self._update_stats,
                            cracked_count,
                            len(remaining),
                            stage_name, elapsed())
@@ -612,20 +608,20 @@ class HybridAttackWindow:
                      stage_num, stage_name):
             pct = int((done / total_cnt) * 100) \
                   if total_cnt else 0
-            self.win.after(0, self._update_progress,
+            self.after(0, self._update_progress,
                            pct, stage_num, stage_name,
                            cracked_count, total, elapsed())
 
         # ── Stage 1: Rainbow ─────────────────────────────────
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Rainbow Table", "running")
-        self.win.after(0, self._log,
+        self.after(0, self._log,
                        "=== Stage 1: Rainbow Table ===",
                        "info")
-        self.win.after(0,
+        self.after(0,
                        self.stat_vars["Current"].set,
                        "Stage 1")
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "Stage 1/4 — Rainbow table running")
 
         to_remove = set()
@@ -635,7 +631,7 @@ class HybridAttackWindow:
                 break
             result = rainbow.lookup(h)
             if result is not None:
-                self.win.after(0, self._log,
+                self.after(0, self._log,
                     f"[RAINBOW] {h[:24]}...  →  "
                     f"'{result}'", "rainbow")
                 record(h, result, "Rainbow",
@@ -643,22 +639,22 @@ class HybridAttackWindow:
                 to_remove.add(h)
 
         remaining -= to_remove
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Rainbow Table", "done")
         if not remaining or not self.running:
-            self.win.after(0, self._done)
+            self.after(0, self._done)
             return
 
         # ── Stage 2: Dictionary ──────────────────────────────
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Dictionary", "running")
-        self.win.after(0, self._log,
+        self.after(0, self._log,
                        "=== Stage 2: Dictionary Attack ===",
                        "info")
-        self.win.after(0,
+        self.after(0,
                        self.stat_vars["Current"].set,
                        "Stage 2")
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "Stage 2/4 — Dictionary attack running")
 
         to_remove = set()
@@ -670,7 +666,7 @@ class HybridAttackWindow:
                 for algo, fn in ALGORITHMS.items():
                     try:
                         if fn(word) == h.lower():
-                            self.win.after(0, self._log,
+                            self.after(0, self._log,
                                 f"[DICT/{algo.upper()}] "
                                 f"{h[:20]}...  →  "
                                 f"'{word}'", "dict")
@@ -687,22 +683,22 @@ class HybridAttackWindow:
             if not remaining:
                 break
 
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Dictionary", "done")
         if not remaining or not self.running:
-            self.win.after(0, self._done)
+            self.after(0, self._done)
             return
 
         # ── Stage 3: Mutation ────────────────────────────────
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Mutation Engine", "running")
-        self.win.after(0, self._log,
+        self.after(0, self._log,
                        "=== Stage 3: Mutation Engine ===",
                        "info")
-        self.win.after(0,
+        self.after(0,
                        self.stat_vars["Current"].set,
                        "Stage 3")
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "Stage 3/4 — Mutation engine running")
 
         active_rules = [r for r, v
@@ -719,7 +715,7 @@ class HybridAttackWindow:
                     for algo, fn in ALGORITHMS.items():
                         try:
                             if fn(variant) == h.lower():
-                                self.win.after(0, self._log,
+                                self.after(0, self._log,
                                     f"[MUTATE] '{variant}'"
                                     f"  →  {h[:20]}...",
                                     "mutate")
@@ -737,22 +733,22 @@ class HybridAttackWindow:
             if not remaining:
                 break
 
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Mutation Engine", "done")
         if not remaining or not self.running:
-            self.win.after(0, self._done)
+            self.after(0, self._done)
             return
 
         # ── Stage 4: Brute force ─────────────────────────────
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Brute Force", "running")
-        self.win.after(0, self._log,
+        self.after(0, self._log,
                        "=== Stage 4: Brute Force ===",
                        "info")
-        self.win.after(0,
+        self.after(0,
                        self.stat_vars["Current"].set,
                        "Stage 4")
-        self.win.after(0, self._set_status,
+        self.after(0, self._set_status,
                        "Stage 4/4 — Brute force running")
 
         charset   = self.charset_var.get() \
@@ -765,7 +761,7 @@ class HybridAttackWindow:
         for length in range(min_l, max_l + 1):
             if not remaining or not self.running:
                 break
-            self.win.after(0, self._log,
+            self.after(0, self._log,
                 f"[BRUTE] Trying length {length}...",
                 "info")
             for combo in itertools.product(
@@ -778,7 +774,7 @@ class HybridAttackWindow:
                     for algo, fn in ALGORITHMS.items():
                         try:
                             if fn(word) == h.lower():
-                                self.win.after(0, self._log,
+                                self.after(0, self._log,
                                     f"[BRUTE/{algo.upper()}]"
                                     f" '{word}'  →  "
                                     f"{h[:20]}...", "brute")
@@ -792,13 +788,13 @@ class HybridAttackWindow:
                 to_remove.clear()
                 count += 1
                 if count % 5000 == 0:
-                    self.win.after(0, self._log,
+                    self.after(0, self._log,
                         f"[BRUTE] {count} combos tried...",
                         "info")
                 if not remaining:
                     break
 
-        self.win.after(0, self._set_stage,
+        self.after(0, self._set_stage,
                        "Brute Force", "done")
 
         for h in remaining:
@@ -813,7 +809,7 @@ class HybridAttackWindow:
                 "tag":    "notfound",
             })
 
-        self.win.after(0, self._done)
+        self.after(0, self._done)
 
     # ── UI update helpers ────────────────────────────────────
     def _update_stats(self, cracked, remaining,
