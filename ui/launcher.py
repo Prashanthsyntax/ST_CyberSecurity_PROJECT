@@ -138,9 +138,14 @@ class LauncherFrame(tk.Frame):
                     c.configure(bg=BG_CARD,
                                 fg=FG_PRIMARY if "bold" in str(c.cget("font")) else FG_MUTED)
 
-        if name == "Report Mode":                          # ← same indent as the for loop
+        if name == "Report Mode":
             from ui.reports_mode import ReportsFrame
             self.nav.push_view(ReportsFrame)
+
+        elif name == "Advanced":
+            from ui.advanced_mode import AdvancedModeFrame
+            self.nav.push_view(AdvancedModeFrame)
+
 
     def _build_module_grid(self):
         outer = tk.Frame(self, bg=BG_DARK)
