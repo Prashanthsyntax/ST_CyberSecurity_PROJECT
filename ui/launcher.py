@@ -129,22 +129,18 @@ class LauncherFrame(tk.Frame):
         self.mode.set(name)
         for n, btn in self.mode_btns.items():
             if n == name:
-                btn.configure(
-                    highlightbackground=FG_BLUE,
-                    bg=BG_ACCENT)
+                btn.configure(highlightbackground=FG_BLUE, bg=BG_ACCENT)
                 for c in btn.winfo_children():
-                    c.configure(bg=BG_ACCENT,
-                                fg=FG_BLUE)
+                    c.configure(bg=BG_ACCENT, fg=FG_BLUE)
             else:
-                btn.configure(
-                    highlightbackground=BORDER,
-                    bg=BG_CARD)
+                btn.configure(highlightbackground=BORDER, bg=BG_CARD)
                 for c in btn.winfo_children():
-                    c.configure(
-                        bg=BG_CARD,
-                        fg=FG_PRIMARY
-                        if "bold" in str(c.cget("font"))
-                        else FG_MUTED)
+                    c.configure(bg=BG_CARD,
+                                fg=FG_PRIMARY if "bold" in str(c.cget("font")) else FG_MUTED)
+
+        if name == "Report Mode":                          # ← same indent as the for loop
+            from ui.reports_mode import ReportsFrame
+            self.nav.push_view(ReportsFrame)
 
     def _build_module_grid(self):
         outer = tk.Frame(self, bg=BG_DARK)

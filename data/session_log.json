@@ -23,5 +23,44 @@
       "elapsed": "0.07s",
       "summary": "3/3 cracked · 4 stages"
     }
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-04-12 14:38:29",
+    "type": "Hash Crack",
+    "details": {
+      "cracked": 3,
+      "total": 3,
+      "elapsed": "0.04s",
+      "summary": "3/3 cracked · 0.04s",
+      "algorithms": [
+        "MD5"
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-04-12 14:39:16",
+    "type": "Hybrid",
+    "details": {
+      "cracked": 3,
+      "total": 3,
+      "elapsed": "0.12s",
+      "summary": "3/3 cracked · 4 stages"
+    }
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-04-12 15:44:21",
+    "type": "Hash Crack",
+    "details": {
+      "cracked": 3,
+      "total": 3,
+      "elapsed": "0.02s",
+      "summary": "3/3 cracked · 0.02s",
+      "algorithms": [
+        "MD5"
+      ]
+    }
   }
 ]

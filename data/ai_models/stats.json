@@ -1,7 +1,9 @@
 {
-  "total_trained": 150,
+  "total_trained": 438,
   "training_files": [
     "small.txt",
+    "training.txt",
+    "training.txt",
     "training.txt"
   ],
   "self_learned": 0
