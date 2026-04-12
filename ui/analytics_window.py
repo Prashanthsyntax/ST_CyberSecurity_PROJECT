@@ -136,7 +136,7 @@ class AnalyticsFrame(tk.Frame):
     def _build_input_row(self):
         frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16,
-                   pady=(10, 0))
+                   pady=(12, 0))
 
         tk.Label(frame,
                  text="LOAD RESULTS — browse a "
@@ -196,7 +196,7 @@ class AnalyticsFrame(tk.Frame):
     def _build_summary_cards(self):
         frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="x", padx=16,
-                   pady=(10, 0))
+                   pady=(12, 0))
 
         self.summary_vars = {
             "Total":      tk.StringVar(value="0"),
@@ -238,8 +238,7 @@ class AnalyticsFrame(tk.Frame):
     # ── Charts area ───────────────────────────────────
     def _build_charts_area(self):
         outer = tk.Frame(self, bg=BG_DARK)
-        outer.pack(fill="x", padx=16,
-                   pady=(10, 0))
+        outer.pack(fill="x", padx=16, pady=(12, 0)) # Fixed height section
         outer.columnconfigure(0, weight=1)
         outer.columnconfigure(1, weight=1)
         outer.columnconfigure(2, weight=1)
@@ -307,8 +306,7 @@ class AnalyticsFrame(tk.Frame):
     # ── Top passwords + password tester ───────────────
     def _build_top_passwords(self):
         outer = tk.Frame(self, bg=BG_DARK)
-        outer.pack(fill="x", padx=16,
-                   pady=(10, 0))
+        outer.pack(fill="both", expand=True, padx=16, pady=(12, 0))
         outer.columnconfigure(0, weight=1)
         outer.columnconfigure(1, weight=1)
 
@@ -353,7 +351,7 @@ class AnalyticsFrame(tk.Frame):
             columns=cols,
             show="headings",
             style="Analytics.Treeview",
-            height=6)
+            height=8) # Increased from 6
 
         for col, txt, w in [
             ("rank",      "#",          30),
@@ -460,8 +458,7 @@ class AnalyticsFrame(tk.Frame):
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16,
-                   pady=(10, 6))
+        frame.pack(fill="x", padx=16, pady=(10, 8))
 
         self.analyse_btn = tk.Button(
             frame,
@@ -663,7 +660,7 @@ class AnalyticsFrame(tk.Frame):
                         colors: dict,
                         max_val: int):
         canvas.delete("all")
-        canvas.update_idletasks()
+        # canvas.update_idletasks() - Removed to prevent mid-transition flickers
         w = canvas.winfo_width() or 300
         h = 140
         bar_h    = 16

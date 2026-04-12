@@ -87,7 +87,7 @@ class RuleEngineFrame(tk.Frame):
             tk.Label(bar, bg=color, width=2).pack(
                 side="left",
                 padx=(8 if color=="#ff5f57" else 4,0),
-                pady=10)
+                pady=8)
         tk.Label(bar,
                  text="Window 5 — Rule Engine  "
                       "(Hashcat-compatible syntax)",
@@ -98,7 +98,7 @@ class RuleEngineFrame(tk.Frame):
     # ── File + ruleset selector ───────────────────────
     def _build_files_section(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(12,0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         row = tk.Frame(frame, bg=BG_DARK)
         row.pack(fill="x")
@@ -168,7 +168,7 @@ class RuleEngineFrame(tk.Frame):
     # ── Main 2-column area ────────────────────────────
     def _build_main_area(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10,0))
+        frame.pack(fill="both", expand=True, padx=16, pady=(12, 0))
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
 
@@ -238,9 +238,11 @@ class RuleEngineFrame(tk.Frame):
                       self._add_token(t)
                       ).pack(side="right", padx=4)
 
-        inner.update_idletasks()
-        canvas.configure(
-            scrollregion=canvas.bbox("all"))
+        # Delayed update ensures the scrollregion is calculated after the transition
+        self.after(200, lambda: (
+            inner.update_idletasks(),
+            canvas.configure(scrollregion=canvas.bbox("all"))
+        ))
 
         # ── Right: rule editor + live preview ─────────
         right = tk.Frame(frame, bg=BG_DARK)
@@ -401,8 +403,8 @@ class RuleEngineFrame(tk.Frame):
 
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
-        frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10,0))
+        outer = tk.Frame(self, bg=BG_DARK)
+        outer.pack(fill="x", padx=16, pady=(12, 0))
 
         self.stat_vars = {
             "Rules":      tk.StringVar(value="0"),
@@ -436,7 +438,7 @@ class RuleEngineFrame(tk.Frame):
     # ── Progress bar ──────────────────────────────────
     def _build_progress(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(8,0))
+        frame.pack(fill="x", padx=16, pady=(6,0))
 
         style = ttk.Style()
         style.theme_use("clam")
@@ -459,7 +461,7 @@ class RuleEngineFrame(tk.Frame):
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10,6))
+        frame.pack(fill="x", padx=16, pady=(6,6))
 
         self.apply_btn = tk.Button(
             frame,
@@ -520,7 +522,7 @@ class RuleEngineFrame(tk.Frame):
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):
         bar = tk.Frame(self, bg=BG_CARD,
-                       height=28)
+                       height=25)
         bar.pack(fill="x", side="bottom")
         bar.pack_propagate(False)
 

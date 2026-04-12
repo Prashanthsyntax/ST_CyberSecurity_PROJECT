@@ -108,7 +108,7 @@ class HybridAttackFrame(tk.Frame):
     # ── File selectors ───────────────────────────────────────
     def _build_files_section(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         for label, var in [
             ("HASH FILE",     self.hash_file),
@@ -153,7 +153,7 @@ class HybridAttackFrame(tk.Frame):
     # ── Stage indicators — single row 1×4 ────────────────────
     def _build_stage_indicators(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(frame,
                  text="ATTACK STAGES — RUNS IN ORDER",
@@ -201,7 +201,7 @@ class HybridAttackFrame(tk.Frame):
     # ── Mutation rules ───────────────────────────────────────
     def _build_mutation_section(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(frame, text="MUTATION RULES",
                  bg=BG_DARK, fg=FG_MUTED,
@@ -258,7 +258,7 @@ class HybridAttackFrame(tk.Frame):
     # ── Brute force config ───────────────────────────────────
     def _build_brute_config(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(frame, text="BRUTE FORCE CONFIG",
                  bg=BG_DARK, fg=FG_MUTED,
@@ -318,7 +318,7 @@ class HybridAttackFrame(tk.Frame):
     # ── Stats bar ────────────────────────────────────────────
     def _build_stats_bar(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         self.stat_vars = {
             "Total":     tk.StringVar(value="0"),
@@ -378,7 +378,7 @@ class HybridAttackFrame(tk.Frame):
     # ── Buttons — packed BEFORE log ──────────────────────────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 6))
+        frame.pack(fill="x", padx=16, pady=(10, 8))
 
         # Start
         self.start_btn = tk.Button(
@@ -395,7 +395,7 @@ class HybridAttackFrame(tk.Frame):
             command=self._start)
         self.start_btn.pack(
             side="left", expand=True,
-            fill="x", padx=(0, 6), ipady=10)
+            fill="x", padx=(0, 6), ipady=11)
 
         # Pause
         self.pause_btn = tk.Button(

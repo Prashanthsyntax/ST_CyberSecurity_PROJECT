@@ -49,7 +49,7 @@ class AITrainingFrame(tk.Frame):
 
     def _build_body(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(14, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(frame,
                  text="TRAINING WORDLIST",
@@ -79,7 +79,7 @@ class AITrainingFrame(tk.Frame):
         tk.Label(frame, text="MODEL STATS",
                  bg=BG_DARK, fg=FG_MUTED,
                  font=("Courier", 8)).pack(
-                 anchor="w", pady=(14, 4))
+                 anchor="w", pady=(12, 4))
 
         self.stat_vars = {
             "Trained on":    tk.StringVar(value="0"),
@@ -107,22 +107,22 @@ class AITrainingFrame(tk.Frame):
                      bg=BG_CARD,
                      fg=colors.get(label, FG_BLUE),
                      font=("Courier",14,"bold")
-                     ).pack(pady=(8,2))
+                     ).pack(pady=(12,6))
             tk.Label(card, text=label,
                      bg=BG_CARD, fg=FG_MUTED,
                      font=("Courier",8)
-                     ).pack(pady=(0,8))
+                     ).pack(pady=(0,12))
 
         # Progress
         self.progress = ttk.Progressbar(
             frame, mode="determinate",
             maximum=100, value=0)
-        self.progress.pack(fill="x", pady=(12,0))
+        self.progress.pack(fill="x", pady=(16,0))
         self.prog_label = tk.Label(
             frame, text="0%  ·  waiting...",
             bg=BG_DARK, fg=FG_MUTED,
             font=("Courier",8))
-        self.prog_label.pack(anchor="w", pady=2)
+        self.prog_label.pack(anchor="w", pady=4)
 
     def _browse(self):
         path = filedialog.askopenfilename(
@@ -133,7 +133,7 @@ class AITrainingFrame(tk.Frame):
 
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10,6))
+        frame.pack(fill="x", padx=16, pady=(10, 8))
 
         self.train_btn = tk.Button(
             frame,
@@ -144,7 +144,7 @@ class AITrainingFrame(tk.Frame):
             command=self._train)
         self.train_btn.pack(side="left", expand=True,
                             fill="x", padx=(0,6),
-                            ipady=10)
+                            ipady=11)
 
         tk.Button(frame, text="Reset Models",
                   bg=BG_DARK, fg=FG_RED,
@@ -174,7 +174,7 @@ class AITrainingFrame(tk.Frame):
     def _build_log(self):
         frame = tk.Frame(self, bg=BG_DARK)
         frame.pack(fill="both", expand=True,
-                   padx=16, pady=(6,4))
+                   padx=16, pady=(6,8))
         tk.Label(frame, text="TRAINING LOG",
                  bg=BG_DARK, fg=FG_MUTED,
                  font=("Courier",8)).pack(

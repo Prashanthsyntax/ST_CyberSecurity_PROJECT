@@ -52,7 +52,8 @@ def start_cracking(hash_entry, wl_entry, output_text):
 
 def open_cracker_window(parent):
     """Opens the hash cracker as a child window from the launcher."""
-    win = tk.Toplevel(parent)      # ← fixed: tk.Toplevel not Tk.Toplevel
+    win = tk.Toplevel(parent)
+    win.withdraw()
     win.title("Hash Cracker")
     win.configure(padx=16, pady=16)
     build_ui(win)

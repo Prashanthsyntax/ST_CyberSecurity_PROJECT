@@ -86,7 +86,7 @@ class WordlistGeneratorFrame(tk.Frame):
     # ── Target info — 2 column grid ──────────────────
     def _build_target_section(self):
         outer = tk.Frame(self, bg=BG_DARK)
-        outer.pack(fill="x", padx=16, pady=(12, 0))
+        outer.pack(fill="x", padx=16, pady=(16, 0))
 
         tk.Label(outer,
                  text="TARGET INFORMATION — fill what you know",
@@ -190,7 +190,7 @@ class WordlistGeneratorFrame(tk.Frame):
     # ── Generation options ────────────────────────────
     def _build_options_section(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(6, 0))
 
         tk.Label(frame, text="GENERATION OPTIONS",
                  bg=BG_DARK, fg=FG_MUTED,
@@ -239,7 +239,7 @@ class WordlistGeneratorFrame(tk.Frame):
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         self.stat_vars = {
             "Words":  tk.StringVar(value="0"),
@@ -301,7 +301,7 @@ class WordlistGeneratorFrame(tk.Frame):
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 6))
+        frame.pack(fill="x", padx=16, pady=(8, 6)) # Tightened pady
 
         self.gen_btn = tk.Button(
             frame,
@@ -317,7 +317,7 @@ class WordlistGeneratorFrame(tk.Frame):
             command=self._generate)
         self.gen_btn.pack(side="left", expand=True,
                           fill="x", padx=(0, 6),
-                          ipady=10)
+                          ipady=11)
 
         tk.Button(frame,
                   text="Save to File",
@@ -408,12 +408,12 @@ class WordlistGeneratorFrame(tk.Frame):
 
         self.preview_box = tk.Text(
             box_frame,
-            bg="#1a1a2e", fg=FG_PRIMARY,
+            bg="#0f0f1e", fg=FG_GREEN,
             font=("Courier", 10),
             relief="flat",
             state="disabled",
-            wrap="word",
-            padx=10, pady=8)
+            height=4,
+            padx=8, pady=6)
 
         sb = tk.Scrollbar(box_frame,
                           command=self.preview_box.yview,

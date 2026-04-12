@@ -316,7 +316,7 @@ class RainbowTableFrame(tk.Frame):
     # ── Lookup bar ────────────────────────────────────
     def _build_lookup_bar(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         tk.Label(frame,
                  text="INSTANT LOOKUP — "
@@ -404,7 +404,7 @@ class RainbowTableFrame(tk.Frame):
     # ── Stats bar ─────────────────────────────────────
     def _build_stats_bar(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(12, 0))
 
         self.stat_vars = {
             "Total entries": tk.StringVar(value="0"),
@@ -463,7 +463,7 @@ class RainbowTableFrame(tk.Frame):
     # ── Buttons ───────────────────────────────────────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 6))
+        frame.pack(fill="x", padx=16, pady=(10, 8))
 
         self.build_btn = tk.Button(
             frame,
@@ -479,7 +479,7 @@ class RainbowTableFrame(tk.Frame):
             command=self._build_table)
         self.build_btn.pack(
             side="left", expand=True,
-            fill="x", padx=(0, 6), ipady=10)
+            fill="x", padx=(0, 6), ipady=11) # increased ipady
 
         tk.Button(frame,
                   text="Load Table",
@@ -521,7 +521,7 @@ class RainbowTableFrame(tk.Frame):
                   command=self._clear_all
                   ).pack(side="left", expand=True,
                          fill="x", padx=(3, 0),
-                         ipady=10)
+                         ipady=11)
 
     # ── Status bar ────────────────────────────────────
     def _build_statusbar(self):

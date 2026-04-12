@@ -66,7 +66,7 @@ class ReportsFrame(tk.Frame):
             tk.Label(bar, bg=color, width=2).pack(
                 side="left",
                 padx=(8 if color == "#ff5f57" else 4, 0),
-                pady=10)
+                pady=7)
         tk.Label(bar,
                  text="Window 8 — Reports & Logs  ·  Compliance-ready audit trail",
                  bg=BG_CARD, fg=FG_MUTED,
@@ -108,7 +108,7 @@ class ReportsFrame(tk.Frame):
     # ── Main 2-column area ────────────────────────────
     def _build_main_area(self):
         outer = tk.Frame(self, bg=BG_DARK)
-        outer.pack(fill="x", padx=16, pady=(10, 0))
+        outer.pack(fill="both", expand=True, padx=16, pady=(12, 0))
         outer.columnconfigure(0, weight=3)
         outer.columnconfigure(1, weight=2)
 
@@ -149,7 +149,7 @@ class ReportsFrame(tk.Frame):
         self.log_tree = ttk.Treeview(card, columns=cols,
                                      show="headings",
                                      style="Log.Treeview",
-                                     height=10)
+                                     height=8) # Reduced from 10 to fit vertical budget
 
         for col, txt, w in [
             ("id",        "#",         35),
@@ -266,9 +266,6 @@ class ReportsFrame(tk.Frame):
             btn.pack(side="left", padx=(0, 6))
             self.fmt_btns[fmt] = btn
 
-        # ── FIX: guard so _update_preview is not called before
-        #         preview_box exists (it is built in _build_preview,
-        #         which runs after _build_main_area).
         self._select_format("TXT")
 
         tk.Label(inner, text="INCLUDE IN REPORT",
@@ -290,7 +287,6 @@ class ReportsFrame(tk.Frame):
                            activeforeground=FG_BLUE,
                            font=("Courier", 8)).pack(anchor="w")
 
-    # ── FIX: guard _update_preview until preview_box exists ──────────
     def _select_format(self, fmt):
         self.report_format.set(fmt)
         for f, btn in self.fmt_btns.items():
@@ -300,7 +296,7 @@ class ReportsFrame(tk.Frame):
             else:
                 btn.configure(bg=BG_DARK, fg=FG_MUTED,
                               highlightbackground=BORDER)
-        if self.preview_box is not None:   # ← GUARD
+        if self.preview_box is not None:
             self._update_preview()
 
     # ── Report preview ────────────────────────────────
@@ -322,19 +318,16 @@ class ReportsFrame(tk.Frame):
                                    font=("Courier", 9),
                                    relief="flat",
                                    state="disabled",
-                                   height=7,
+                                   height=5,
                                    padx=10, pady=8)
-        self.preview_box.pack(fill="x", expand=True)
+        self.preview_box.pack(fill="x", expand=False)
 
-        # Now that preview_box exists, do the first real preview render
         self._update_preview()
 
         for var in [self.analyst_var, self.target_var, self.scope_var]:
             var.trace_add("write", lambda *a: self._update_preview())
 
     def _update_preview(self):
-        # Safety guard — should never be needed after the fix above,
-        # but kept as a belt-and-braces check.
         if self.preview_box is None:
             return
 

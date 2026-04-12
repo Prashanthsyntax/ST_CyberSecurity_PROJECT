@@ -146,7 +146,7 @@ class HashCrackerFrame(tk.Frame):
     # ── Hash preview table ───────────────────────────────────
     def _build_hash_preview(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(6, 0))
 
         tk.Label(frame,
                  text="LOADED HASHES — AUTO-DETECTED TYPE",
@@ -170,7 +170,7 @@ class HashCrackerFrame(tk.Frame):
 
         cols = ("Hash Value", "Detected Algorithm", "Length")
         self.preview_tree = ttk.Treeview(frame, columns=cols,
-                                          show="headings", height=3)
+                                          show="headings", height=2) # Reduced from 3
         self.preview_tree.heading("Hash Value",          text="Hash Value")
         self.preview_tree.heading("Detected Algorithm",  text="Detected Algorithm")
         self.preview_tree.heading("Length",              text="Length")
@@ -201,7 +201,7 @@ class HashCrackerFrame(tk.Frame):
     # ── Stats bar ────────────────────────────────────────────
     def _build_stats_bar(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 0))
+        frame.pack(fill="x", padx=16, pady=(8, 0)) # Reduced from 12
 
         self.stat_vars = {
             "Total":     tk.StringVar(value="0"),
@@ -225,7 +225,7 @@ class HashCrackerFrame(tk.Frame):
             card.pack(side="left", expand=True, fill="x", padx=4)
             tk.Label(card, textvariable=var,
                      bg=BG_CARD, fg=colors[label],
-                     font=("Courier", 16, "bold")).pack(pady=(8, 2))
+                     font=("Courier", 14, "bold")).pack(pady=(6, 2)) # Reduced font from 16 and pady
             tk.Label(card, text=label,
                      bg=BG_CARD, fg=FG_MUTED,
                      font=("Courier", 8)).pack(pady=(0, 8))
@@ -256,7 +256,7 @@ class HashCrackerFrame(tk.Frame):
     # ── Buttons — packed BEFORE results so always visible ────
     def _build_buttons(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=16, pady=(10, 6))
+        frame.pack(fill="x", padx=16, pady=(8, 6)) # Tightened pady
 
         self.start_btn = tk.Button(
             frame,

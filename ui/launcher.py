@@ -31,15 +31,15 @@ class LauncherFrame(tk.Frame):
     def _build_header(self):
         # Container frame for logo and text
         header_container = tk.Frame(self, bg=BG_DARK)
-        header_container.pack(fill="x", pady=(20, 0), padx=20)
+        header_container.pack(fill="x", pady=(18, 10), padx=20) # Added top padding for balance
 
         # Logo placement
         try:
             logo_path = os.path.join("resources", "logo.png")
             if os.path.exists(logo_path):
                 img = Image.open(logo_path)
-                # Larger size for better detail visibility
-                img = img.resize((120, 120), Image.LANCZOS)
+                # Smaller logo for vertical space
+                img = img.resize((50, 50), Image.LANCZOS)
                 # Apply sharpening for crisp edges
                 img = img.filter(ImageFilter.SHARPEN)
                 self.logo_img = ImageTk.PhotoImage(img)
@@ -81,7 +81,7 @@ class LauncherFrame(tk.Frame):
         info_btn.pack(side="right", anchor="n")
         tk.Frame(self, bg=BORDER,
                  height=1).pack(fill="x",
-                                padx=20, pady=14)
+                                padx=20, pady=0)
 
     def _build_mode_selector(self):
         outer = tk.Frame(self, bg=BG_DARK)
@@ -89,7 +89,7 @@ class LauncherFrame(tk.Frame):
         tk.Label(outer, text="SELECT MODE",
                  bg=BG_DARK, fg=FG_MUTED,
                  font=("Courier", 8)).pack(
-                 anchor="w", pady=(0, 8))
+                 anchor="w", pady=(5, 5))
         row = tk.Frame(outer, bg=BG_DARK)
         row.pack(fill="x")
 
@@ -114,7 +114,7 @@ class LauncherFrame(tk.Frame):
                      bg=BG_CARD, fg=FG_MUTED,
                      font=("Courier", 8),
                      justify="center"
-                     ).pack(pady=(0, 10))
+                     ).pack(pady=(0, 6))
             btn.bind("<Button-1>",
                      lambda e, n=name:
                      self._select_mode(n))
@@ -149,7 +149,7 @@ class LauncherFrame(tk.Frame):
 
     def _build_module_grid(self):
         outer = tk.Frame(self, bg=BG_DARK)
-        outer.pack(fill="x", padx=20, pady=(16, 0))
+        outer.pack(fill="x", padx=20, pady=(0, 0))
         tk.Label(outer, text="OPEN MODULE",
                  bg=BG_DARK, fg=FG_MUTED,
                  font=("Courier", 8)).pack(
@@ -194,10 +194,10 @@ class LauncherFrame(tk.Frame):
                             highlightbackground=BORDER,
                             cursor="hand2")
             card.grid(row=i // 2, column=i % 2,
-                      sticky="ew", padx=4, pady=4)
+                      sticky="ew", padx=4, pady=2)
 
             inner = tk.Frame(card, bg=BG_CARD)
-            inner.pack(fill="x", padx=12, pady=10)
+            inner.pack(fill="x", padx=12, pady=6)
 
             tk.Label(inner, text=name,
                      bg=BG_CARD, fg=FG_PRIMARY,
@@ -227,7 +227,7 @@ class LauncherFrame(tk.Frame):
 
     def _build_quick_start(self):
         frame = tk.Frame(self, bg=BG_DARK)
-        frame.pack(fill="x", padx=20, pady=16)
+        frame.pack(fill="x", padx=20, pady=(2, 12))
         tk.Button(frame,
                   text="▶  Start Quick Crack",
                   bg=BTN_BLUE, fg="#e0f0ff",
@@ -237,12 +237,12 @@ class LauncherFrame(tk.Frame):
                   activeforeground="#ffffff",
                   cursor="hand2",
                   command=self._open_hash_cracker
-                  ).pack(fill="x", ipady=10)
+                  ).pack(fill="x", ipady=4)
 
     def _build_statusbar(self):
         bar = tk.Frame(self, bg=BG_CARD,
-                       height=30)
-        bar.pack(fill="x", side="bottom")
+                       height=28)
+        bar.pack(fill="x", side="bottom", pady=(0, 10)) # Added bottom padding for balance
         bar.pack_propagate(False)
         tk.Label(bar, text="●",
                  bg=BG_CARD, fg=FG_GREEN,
