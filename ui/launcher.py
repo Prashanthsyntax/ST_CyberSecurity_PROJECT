@@ -259,16 +259,8 @@ class LauncherFrame(tk.Frame):
                  side="right", padx=12)
 
     def _open_project_info(self):
-        """Opens the local project info HTML page in the default browser."""
-        try:
-            html_path = os.path.abspath(os.path.join("resources", "project_info.html"))
-            if os.path.exists(html_path):
-                webbrowser.open_new_tab(f"file:///{html_path}")
-            else:
-                from tkinter import messagebox
-                messagebox.showerror("Error", "Project info file not found.")
-        except Exception as e:
-            print(f"Error opening project info: {e}")
+        from ui.project_info_window import ProjectInfoFrame
+        self.nav.push_view(ProjectInfoFrame)
 
     # ── Module openers ────────────────────────────────
     def _open_hash_cracker(self):
